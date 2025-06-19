@@ -3,7 +3,7 @@ pipeline {
     environment{
         AWS_REGION - 'ap-south-1'
         IMAGE_NAME - 'test-flask'
-        REPO_NAME - 'test'
+        REPO_NAME - 'flask-docker-ecs-deployment-pipeline'
     }
     stages{
         stage('checkout'){
