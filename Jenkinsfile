@@ -8,7 +8,7 @@ pipeline {
     stages{
         stage('checkout'){
             steps{
-                git 'https://github.com/prabhatzgit/python-flask-docker-ECS-loadbalancer'
+                git branch: 'main', url: 'https://github.com/prabhatzgit/python-flask-docker-ECS-loadbalancer'
             }
         }
         stage('Tag the image'){
