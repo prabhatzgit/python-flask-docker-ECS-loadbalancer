@@ -22,6 +22,23 @@ pipeline {
           }
         }
 
+        stage('Login to Docker') {
+            steps {
+                powershell '''
+                    echo \"${DOCKER_CREDENTIALS_PSW}\" | docker login -u \"${DOCKER_CREDENTIALS_USR}\" --password-stdin
+                '''
+            }
+        }                                               
+        
+        stage('Build Docker Image'){
+            steps{
+                powershell '''
+                docker build -t $env.IMAGE_NAME:$env.IMAGE_TAG .
+                docker tag $env.IMAGE_NAME:$env.IMAGE_TAG 362911127705.dkr.ecr.ap-south-1.amazonaws.com/test:latest
+                '''
+            }
+        }
+
         stage('Login to ECR'){
             steps{
                 withAWS(region: "${env.AWS_REGION}", credentials: 'aws-creds'){
@@ -33,14 +50,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image'){
-            steps{
-                powershell '''
-                docker build -t $env.IMAGE_NAME:$env.IMAGE_TAG .
-                docker tag $env.IMAGE_NAME:$env.IMAGE_TAG 362911127705.dkr.ecr.ap-south-1.amazonaws.com/test:latest
-                '''
-            }
-        }
+
         stage('Push to ECR'){
             steps {
             powershell '''
