@@ -22,3 +22,35 @@
    docker rm <container_id>
 5. Now try deleting the image again:
    docker rmi python-flask-docker-ecs-loadbalancer:latest
+
+# how flask app can run as a container task in AWS ECS cluster service (accessed through an AWS Load Balancer)
+
+1. Create ECS Task Definition
+
+- Launch type: Fargate
+- Network mode: awsvpc
+- Container:
+- Image: your ECR image URI
+- Port mappings: container port 5000
+- Task Role: for permissions (e.g., CloudWatch logs)
+
+2. Create ECS Cluster & Service
+
+- Cluster: Create a new one or use existing
+- Service:
+- Launch type: Fargate
+- Task definition: the one you created
+- Desired count: 1+
+- Load balancer: Application Load Balancer (ALB)
+- Listener: port 80
+- Target group: port 5000, protocol HTTP
+- Health check path: / or your app’s health endpoint
+
+3. Configure Networking
+
+- Assign public IP (if needed)
+- Attach to subnets in your VPC
+- Security group: allow inbound traffic on port 80
+
+4. Access Your App
+   Once the service is running and the ALB is healthy, access your Flask app via the ALB DNS name.
