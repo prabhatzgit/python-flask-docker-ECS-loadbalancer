@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/prabhatzgit/python-flask-docker-ECS-loadbalancer', credentialsId: 'your-credentials-id'
+                git branch: 'main', url: 'https://github.com/prabhatzgit/python-flask-docker-ECS-loadbalancer'
             }
         }
 
