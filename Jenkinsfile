@@ -37,7 +37,7 @@ pipeline {
             steps {
                 powershell '''
                     docker build -t $env:IMAGE_NAME:$env:IMAGE_TAG .
-                    docker tag $env:IMAGE_NAME:$env:IMAGE_TAG 362911127705.dkr.ecr.ap-south-1.amazonaws.com/test:latest
+                    docker tag $env:IMAGE_NAME:$env:IMAGE_TAG 362911127705.dkr.ecr.ap-south-1.amazonaws.com:latest
                 '''
             }
         }
